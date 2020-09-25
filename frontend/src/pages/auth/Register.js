@@ -10,27 +10,33 @@ import '../../styles/Register.css';
 class Register extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {title: "Регистрация"}
     }
 
     render () {
-        return <Form>
-            <Form.Text className={"registration-title"}>
-                Регистрация
-            </Form.Text>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control type="email" placeholder="E-Mail" />
-            </Form.Group>
+        return (
+            <Container>
+                <Row className={"justify-content-center align-items-center p-4"}>
+                    <Col className={"col-auto"}>
+                        <Form>
+                            <Form.Text className={"registration-title mb-4"}>
+                                Регистрация
+                            </Form.Text>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Control type="email" placeholder="E-Mail" />
+                            </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control type="password" placeholder="Пароль" />
-            </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Control type="password" placeholder="Пароль" />
+                            </Form.Group>
 
-            <Button variant="primary" type="submit">
-                Зарегистрироваться
-            </Button>
-        </Form>
+                            <Button variant="primary" type="submit">
+                                Зарегистрироваться
+                            </Button>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
+            )
     }
 }
 
