@@ -1,5 +1,6 @@
 version: "3"
 
+# network host, because I don't mind
 services:
   digital_backend:
     build: backend
@@ -8,5 +9,13 @@ services:
       - backend/.env
     ports:
       - "4000:4000"
+    restart: "always"
+    network_mode: "host"
+
+  digital_frontend:
+    build: frontend
+    container_name: "digital_frontend"
+    ports:
+      - "4040:4040"
     restart: "always"
     network_mode: "host"
