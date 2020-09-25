@@ -41,6 +41,7 @@ func migrateSchema() {
 		entities.ApplicationStatus{},
 		entities.ChangeLog{},
 		entities.Client{},
+		entities.Comment{},
 		entities.Document{},
 		entities.DocumentType{},
 		entities.Employee{},

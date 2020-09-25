@@ -14,4 +14,5 @@ type Application struct {
 	Client              Client
 	ServiceTypeID       uint
 	ServiceType         ServiceType
+	Comments            []*Comment
 }
