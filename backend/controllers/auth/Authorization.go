@@ -65,6 +65,12 @@ func loginClient(account Account) map[string]interface{} {
 	resp := u.Message(true, "Logged In")
 	resp["token"] = tokenString
 
+	if account.IsEmployee {
+		resp["IsEmployee"] = true
+	} else {
+		resp["IsEmployee"] = false
+	}
+
 	return resp
 }
 
