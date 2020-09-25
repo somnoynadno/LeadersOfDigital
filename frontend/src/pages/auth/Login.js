@@ -32,7 +32,7 @@ class Login extends React.Component {
                                 Войти
                             </Button>
                             <div id={"registration-button"}>
-                                <a href={"idite_nahuy"}>Зарегистрироваться</a>
+                                <a href={"/register"}>Зарегистрироваться</a>
                             </div>
                         </Form>
 

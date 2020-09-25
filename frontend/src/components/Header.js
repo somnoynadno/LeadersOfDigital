@@ -13,7 +13,14 @@ class Header extends React.Component {
     render () {
         return <Container>
             <Row>
-                <Col className={"header"}><h1><b>Online-Service</b></h1></Col>
+                <Col className={"header"}>
+                    <span id={"site-name"}><b>Online-Service</b></span>
+                    <a href={"empty"}>
+                        <div id={"profile-button"}>
+                            Кеков Кек Кекович
+                        </div>
+                    </a>
+                </Col>
             </Row>
         </Container>
     }
