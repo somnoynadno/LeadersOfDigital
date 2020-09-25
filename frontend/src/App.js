@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Route, Switch, withRouter} from "react-router-dom"
+import AuthIndex from "./pages/auth/AuthIndex";
 
 class App extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class App extends React.Component {
             <Route history={history} path='/free_applications' component={null} />
             <Route history={history} path='/my_applications' component={null} />
             {/* Authorization */}
-            <Route history={history} path='/auth' component={null} />
+            <Route history={history} path='/auth' component={AuthIndex} />
             <Route history={history} path='/login' component={null} />
             <Route history={history} path='/register' component={null} />
             {/* Common */}
