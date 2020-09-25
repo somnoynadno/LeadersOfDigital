@@ -1,4 +1,4 @@
-package common
+package employee
 
 import (
 	"LeadersOfDigital/backend/db"
@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-var GetAllServiceTypes = func(w http.ResponseWriter, r *http.Request) {
-	var entities []entities.ServiceType
+var GetAllApplicationStatuses = func(w http.ResponseWriter, r *http.Request) {
+	var entities []entities.ApplicationStatus
 
 	db := db.GetDB()
 	err := db.Find(&entities).Error

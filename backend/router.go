@@ -2,6 +2,8 @@ package main
 
 import (
 	"LeadersOfDigital/backend/controllers/auth"
+	"LeadersOfDigital/backend/controllers/common"
+	"LeadersOfDigital/backend/controllers/employee"
 	"LeadersOfDigital/backend/middleware"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -14,34 +16,36 @@ func InitRouter() *mux.Router {
 	api   := router.PathPrefix("/api").Subrouter()
 
 	// Secondary routers
-	client        := api.PathPrefix("/client").Subrouter()
-	employee      := api.PathPrefix("/employee").Subrouter()
-	authorization := api.PathPrefix("/auth").Subrouter()
+	clientAPI := api.PathPrefix("/clientAPI").Subrouter()
+	employeeAPI := api.PathPrefix("/employeeAPI").Subrouter()
+	authAPI := api.PathPrefix("/auth").Subrouter()
 
-	authorization.HandleFunc("/register", auth.Registration).Methods(http.MethodPost, http.MethodOptions)
-	authorization.HandleFunc("/login", auth.Login).Methods(http.MethodPost, http.MethodOptions)
+	authAPI.HandleFunc("/register", auth.Registration).Methods(http.MethodPost, http.MethodOptions)
+	authAPI.HandleFunc("/login", auth.Login).Methods(http.MethodPost, http.MethodOptions)
 
-	client.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
 
-	client.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	client.HandleFunc("/application", nil).Methods(http.MethodPost, http.MethodOptions)
-	client.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
-	client.HandleFunc("/application/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
-	client.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/application", nil).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
 
-	client.HandleFunc("/service_types", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/service_types", common.GetAllServiceTypes).Methods(http.MethodGet, http.MethodOptions)
 
-	client.HandleFunc("/application/{id}/add_document", nil).Methods(http.MethodPost, http.MethodOptions)
-	client.HandleFunc("/document/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
-	client.HandleFunc("/document/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}/add_document", nil).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/document/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/document/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
 
-	employee.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
 
-	employee.HandleFunc("/free_applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	employee.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	employee.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
-	employee.HandleFunc("/application/{id}", nil).Methods(http.MethodPut, http.MethodOptions)
-	employee.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/free_applications", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodPut, http.MethodOptions)
+	employeeAPI.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
+
+	employeeAPI.HandleFunc("/application_statuses", employee.GetAllApplicationStatuses).Methods(http.MethodGet, http.MethodOptions)
 
 	// middleware usage
 	// do NOT modify the order
@@ -49,8 +53,8 @@ func InitRouter() *mux.Router {
 	api.Use(middleware.LogPath) // log HTTP request URI and method
 	api.Use(middleware.LogBody) // log HTTP request body
 
-	client.Use(middleware.JwtAuthentication) // check JWT token
-	employee.Use(middleware.JwtAuthentication) // check JWT token
+	clientAPI.Use(middleware.JwtAuthentication)   // check JWT token
+	employeeAPI.Use(middleware.JwtAuthentication) // check JWT token
 
 	return router
 }

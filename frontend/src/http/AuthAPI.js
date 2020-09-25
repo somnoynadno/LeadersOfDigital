@@ -4,10 +4,10 @@ import {API} from "./API";
 import {employeeAPI} from "./EmployeeAPI";
 
 class AuthAPI extends API {
-    RegisterUser = async (name, surname, patronymic, email, password) => {
+    RegisterUser = async (name, surname, patronymic, email, password, isEmployee) => {
         let body = JSON.stringify({
-            name: name, surname: surname, patronymic: patronymic,
-            email: email, password: password,
+            Name: name, Surname: surname, Patronymic: patronymic,
+            Email: email, Password: password, IsEmployee: isEmployee
         });
 
         let response = await fetch(BASE_URL + `/auth/register`,
@@ -25,9 +25,9 @@ class AuthAPI extends API {
         }
     };
 
-    LoginUser = async (email, password) => {
-        let body = JSON.stringify({email: email, password: password});
-        
+    LoginUser = async (email, password, isEmployee) => {
+        let body = JSON.stringify({Email: email, Password: password, IsEmployee: isEmployee});
+
         let response = await fetch(BASE_URL + `/auth/login`,
             {method: 'POST', headers: this.headers, body: body});
 
