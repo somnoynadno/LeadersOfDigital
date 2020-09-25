@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  digital_backend:
+    build: backend
+    container_name: "digital_backend"
+    env_file:
+      - backend/.env
+    ports:
+      - "4000:4000"
+    restart: "always"
+    network_mode: "host"
