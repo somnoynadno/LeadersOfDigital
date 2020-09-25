@@ -3,6 +3,7 @@ import React from 'react';
 import {Route, Switch, withRouter} from "react-router-dom"
 import AuthIndex from "./pages/auth/AuthIndex";
 import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import Header from "./components/Header";
 
 class App extends React.Component {
@@ -21,7 +22,7 @@ class App extends React.Component {
             {/* Authorization */}
             <Route history={history} path='/auth' component={AuthIndex} />
             <Route history={history} path='/login' component={Login} />
-            <Route history={history} path='/register' component={null} />
+            <Route history={history} path='/register' component={Register} />
             {/* Common */}
             <Route history={history} path='/application/:application_id' component={null} />
             <Route history={history} path='/header' component={Header} />

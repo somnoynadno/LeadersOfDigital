@@ -2,3 +2,27 @@
     background-color: #0057B6;
     color: white;
 }
+
+#site-name {
+    font-size: 36px;
+}
+
+#profile-button {
+    float: right;
+    margin: 15px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.header div{
+    color: #0057B6;
+}
+
+.header div:after{
+    color: #0057B6;
+}
+
+.header div:hover{
+    color: #0057B6;
+}
