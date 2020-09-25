@@ -1,0 +1,39 @@
+#main {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    width: 60%;
+    background-color: #262C40;
+    border-radius: 50px;
+    -webkit-box-shadow: 0px 0px 24px -9px #262C40;
+    -moz-box-shadow: 0px 0px 24px -9px #262C40;
+    box-shadow: 0px 0px 24px -9px #262C40;
+}
+
+.wrapper {
+    width: 50%;
+    height: 100%;
+    padding: 8%;
+}
+
+.content {
+    border-radius: 30px;
+    background-color: white;
+    padding: 8%;
+}
+h5 {
+    text-align: center;
+}
+
+
+Form {
+    position: relative;
+    margin: 15px 0px 15px 0px;
+}
+
+#registration-button{
+    margin-top: 2px;
+}
