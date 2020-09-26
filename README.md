@@ -19,3 +19,32 @@
 без повторного визита в Банк, а сотрудник – 
 принять документ и использовать его для 
 дальнейшего оказания услуг.
+
+## Инструкция по развёртыванию
+
+1. Поднимаем базу данных для дальнейшего соединения 
+(рекомендуется PostgreSQL).
+
+2. Создаём файл ```backend/.env``` со следующими переменными окружения
+(значения приведены для примера):
+
+    * db_user=postgres
+    * db_pass=postgres
+    * db_name=digital
+    * db_host=localhost
+    * db_port=5432
+    * token_password=example
+    * upload_path=/data
+
+3. Изменяем пути к бекенду и статике в файле ```frontend/src/globals.js```
+
+4. Стартуем контейнер командой ``` $ docker-compose up --build -d ```
+
+5. Файл ```nginx.config``` приведён для примера reverse-proxy 
+на созданные сервисы.
+
+## Презентация решения
+
+Презентация идеи и архитектуры проекта представлена по следующей ссылке:
+
+https://docs.google.com/presentation/d/1qfUEWZFPWYWVo4z5zN_LXLBhDQ_EmLfptUWrMy5HX1U/edit?usp=sharing

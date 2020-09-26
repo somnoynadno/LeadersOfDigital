@@ -110,13 +110,13 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	Document := &entities.Document{}
 	Document.ClientID = clientID
 	Document.ApplicationID = uint(applicationID)
 	Document.DocumentTypeID = uint(dtID)
 	Document.Link = name
 	Document.Signature = s
+
 	err = db.Create(Document).Error
 
 	if err != nil {

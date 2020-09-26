@@ -68,7 +68,6 @@ class Login extends React.Component {
     render() {
         return (
             <Container className="h-100" style={containerStyle}>
-                {/* TODO: add style */}
                 <Row className="justify-content-center align-items-center p-3" style={formStyle}>
                     <Col className="col-auto text-center p-4 align-self-center client-login">
                         <h5>Я клиент Газпромбанка</h5>
@@ -109,11 +108,11 @@ class Login extends React.Component {
                                               type="password" value={this.state.employeePassword} placeholder="Пароль"/>
                             </Form.Group>
 
-                            <div>{this.state.error2}</div>
                             <Button variant="primary" type="submit"
                                     onClick={(event) => this.handleEmployeeLogin(event)}>
                                 Войти
                             </Button>
+                            <div>{this.state.error2}</div>
                         </Form>
                     </Col>
                 </Row>
