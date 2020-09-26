@@ -7,12 +7,12 @@ type Application struct {
 	ApplicationStatusID uint
 	ApplicationStatus   *ApplicationStatus `json:",omitempty"`
 	Documents           []*Document        `json:",omitempty"`
-	ChangeLogs          []*ChangeLog       `json:",omitempty"`
+	ChangeLogs          []*ChangeLog
 	EmployeeID          *uint
 	Employee            *Employee          `json:",omitempty"`
 	ClientID            uint
 	Client              *Client            `json:",omitempty"`
 	ServiceTypeID       uint
 	ServiceType         *ServiceType       `json:",omitempty"`
-	Comments            []*Comment         `json:",omitempty"`
+	Comments            []*Comment
 }
