@@ -10,21 +10,77 @@ import FormControl from "react-bootstrap/FormControl";
 import Header from "../../components/Header";
 
 import '../../styles/ViewApplication.css';
+import {clientAPI} from "../../http/ClientAPI";
 
 class ViewApplication extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {title: "Просмотр заявления"}
+        this.state = {
+            title: "Просмотр заявления",
+            application: null,
+            documents: []
+        };
+
+        this.handleFileChange.bind(this);
+        this.handleFileUpload.bind(this);
     }
 
+    preprocessDocuments = () => {
+        let documents = [];
+        for (let dt of this.state.application.ServiceType.DocumentTypes) {
+            let found = false;
+            for (let d of this.state.application.Documents) {
+                if (d.DocumentTypeID == dt.ID) {
+                    documents.push({"DT": dt, "D": d});
+                    found = true;
+                    break
+                }
+            } if (!found) {
+                documents.push({"DT": dt, "D": null})
+            }
+        }
+
+        this.setState({documents: documents});
+    }
+
+    componentDidMount = async () => {
+        let applicationID = window.location.pathname.split('/')[2];
+        await clientAPI.GetApplicationByID(applicationID)
+            .then((res) => this.setState({application: res}));
+        console.log(this.state.application);
+        this.preprocessDocuments();
+    }
+
+    handleFileChange = event => {
+        // Update the state
+        this.setState({selectedFile: event.target.files[0]});
+    };
+
+    handleFileUpload = async (dt) => {
+        // Create an object of formData
+        const formData = new FormData();
+
+        // Update the formData object
+        formData.append(
+            "File",
+            this.state.selectedFile,
+        );
+
+        // Request made to the backend api
+        // Send formData object
+        await clientAPI.UploadDocument(this.state.application.ID, formData, dt.ID)
+            .then((r) => window.location.reload());
+    };
+
     render () {
-        return (
+        if (!this.state.application) return '';
+        else return (
             <Container>
                 <Header />
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
-                        <h3>Заявление №</h3>
-                        <span>Описание заявлеения</span>
+                        <h3>Заявление №{this.state.application.ID}</h3>
+                        <span>{this.state.application.ServiceType.Description}</span>
                     </Col>
                     <div id={"changelog"}>
                         <Dropdown>
@@ -33,48 +89,45 @@ class ViewApplication extends React.Component {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item><date>01-01-1971</date> Action</Dropdown.Item>
-                                <Dropdown.Item><date>01-01-1971</date> Another action</Dropdown.Item>
-                                <Dropdown.Item><date>01-01-1971</date> Something else</Dropdown.Item>
+                                {this.state.application.ChangeLogs.map((cl) => {
+                                    return <Dropdown.Item>{cl.CreatedAt.toString()}: {cl.Message}</Dropdown.Item>
+                                })}
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
                 </Row>
                 <Form>
-                    <h3>Требуемые документы</h3>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>НДФЛ</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Прикреплено</span>
-                        </Col>
-                        <Col>
-                            <Button>Посмотреть</Button>
-                        </Col>
-                    </Row>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>Трудовая книга</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Прикреплено</span>
-                        </Col>
-                        <Col>
-                            <Button>Посмотреть</Button>
-                        </Col>
-                    </Row>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>Выписка из морга</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Отсутствует</span>
-                        </Col>
-                        <Col>
-                            <Button>Прикрепить</Button>
-                        </Col>
-                    </Row>
+                    <h3 className={"mb-2"}>Требуемые документы</h3>
+                    {this.state.documents.map((d) => {
+                            if (d["D"] === null) {
+                                return <div><Row className={"doc"}>
+                                    <Col>
+                                        <span className={"doc_name"}>{d["DT"].Name}</span>
+                                    </Col>
+                                    <Col>
+                                        <span className={"doc_status"}>Отсутствует</span>
+                                    </Col>
+                                    <Col>
+                                        <input type="file" name="File" onChange={this.handleFileChange} />
+                                        <Button onClick={() => this.handleFileUpload(d["DT"])}>
+                                            Загрузить
+                                        </Button>
+                                    </Col>
+                                </Row><hr /></div>
+                            } else {
+                                return <div><Row className={"doc"}>
+                                    <Col>
+                                        <span className={"doc_name"}>{d["DT"].Name}</span>
+                                    </Col>
+                                    <Col>
+                                        <span className={"doc_status"}>Прикреплено</span>
+                                    </Col>
+                                    <Col>
+                                        <Button>Посмотреть</Button>
+                                    </Col>
+                                </Row><hr /></div>
+                            }
+                    })}
                 </Form>
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
@@ -89,62 +142,24 @@ class ViewApplication extends React.Component {
                         </Form>
                     </Col>
                     <Col id={"comments col-12"}>
-                        <Row className={"comment"}>
-                            <Col className={"col-3"}>
-                                <div className={"author"}>
-                                    <span>Вы</span>
-                                    <span>ФИО сотрудника</span>
-                                </div>
-                            </Col>
-                            <Col className={"col-9"}>
-                                <div className={"text"}>
-                                    Текст комментария
-                                    <time>01-01-1971</time>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={"comment"}>
-                            <Col className={"col-3"}>
-                                <div className={"author"}>
-                                    <span>Вы</span>
-                                    <span>ФИО сотрудника</span>
-                                </div>
-                            </Col>
-                            <Col className={"col-9"}>
-                                <div className={"text"}>
-                                    Текст комментария
-                                    <time>01-01-1971</time>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={"comment"}>
-                            <Col className={"col-3"}>
-                                <div className={"author"}>
-                                    <span>Вы</span>
-                                    <span>ФИО сотрудника</span>
-                                </div>
-                            </Col>
-                            <Col className={"col-9"}>
-                                <div className={"text"}>
-                                    Текст комментария
-                                    <time>01-01-1971</time>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={"comment"}>
-                            <Col className={"col-3"}>
-                                <div className={"author"}>
-                                    <span>Вы</span>
-                                    <span>ФИО сотрудника</span>
-                                </div>
-                            </Col>
-                            <Col className={"col-9"}>
-                                <div className={"text"}>
-                                    Текст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментария
-                                    <time>01-01-1971</time>
-                                </div>
-                            </Col>
-                        </Row>
+                        {this.state.application.Comments.map((c) => {
+                            return <Row className={"comment"}>
+                                <Col className={"col-3"}>
+                                    <div className={"author"}>
+                                        {c.EmployeeID === null ?
+                                            <span>Вы:</span>
+                                            :
+                                            <span>Сотрудник банка:</span>
+                                        }
+                                    </div>
+                                </Col>
+                                <Col className={"col-9"}>
+                                    <div className={"text"}>
+                                        {c.Text} ({c.CreatedAt})
+                                    </div>
+                                </Col>
+                            </Row>
+                        })}
                     </Col>
                 </Row>
             </Container>

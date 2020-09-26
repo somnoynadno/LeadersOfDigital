@@ -6,7 +6,7 @@ type Application struct {
 	gorm.Model
 	ApplicationStatusID uint
 	ApplicationStatus   *ApplicationStatus `json:",omitempty"`
-	Documents           []*Document        `json:",omitempty"`
+	Documents           []*Document
 	ChangeLogs          []*ChangeLog
 	EmployeeID          *uint
 	Employee            *Employee          `json:",omitempty"`

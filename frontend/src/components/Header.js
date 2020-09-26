@@ -16,7 +16,7 @@ class Header extends React.Component {
                     <span id={"site-name"}><b>ГазПром</b> Документы</span>
                     <a href={"empty"}>
                         <div id={"profile-button"}>
-                            Кеков Кек Кекович
+                            Личный кабинет
                         </div>
                     </a>
                 </Col>
