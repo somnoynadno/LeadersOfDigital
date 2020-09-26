@@ -38,3 +38,23 @@ h3 {
 .doc Button:hover, #comment-form Button:hover {
     background-color: #0057B6;
 }
+
+#app-control {
+    margin-top: 18px;
+}
+
+#app-control Button {
+    border: none;
+}
+
+#app-control #accept Button{
+    background-color: #65CC7B;
+}
+
+#app-control #revision Button{
+    background-color: #F5984E;
+}
+
+#app-control #decline Button{
+    background-color: #C84F4F;
+}
