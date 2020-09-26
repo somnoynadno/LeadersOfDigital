@@ -11,10 +11,9 @@ class Header extends React.Component {
     }
 
     render () {
-        return <Container>
-            <Row>
+        return <Row>
                 <Col className={"header"}>
-                    <span id={"site-name"}><b>Online-Service</b></span>
+                    <span id={"site-name"}><b>ГазПром</b> Документы</span>
                     <a href={"empty"}>
                         <div id={"profile-button"}>
                             Кеков Кек Кекович
@@ -22,7 +21,6 @@ class Header extends React.Component {
                     </a>
                 </Col>
             </Row>
-        </Container>
     }
 }
 

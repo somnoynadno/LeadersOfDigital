@@ -1,0 +1,8 @@
+.app-add-button {
+    float: right;
+    margin: 10px;
+}
+
+#client-info {
+   justify-content: space-between;
+}
