@@ -29,21 +29,24 @@ class Applications extends React.Component {
         return (
             <Container>
                 <Header />
-                <Row className={"row-auto"} id={"client-info"}>
+                <Row className={"row-auto"} id={"application-info"}>
                     <Col className={"col-auto"}>
                         {this.state.user === null ? '' :
-                            <h3>{this.state.user.Name + " " + this.state.user.Surname}</h3>
+                            <h3>{this.state.user.Surname + " " + this.state.user.Name + " " + this.state.user.Patronymic}</h3>
                         }
                         <h4>Мои заявки</h4>
                     </Col>
-                    <div className={"app-add-button"}>
-                        <Button onClick={() => this.props.history.push('/new_application')}>Новое заявление</Button>
-                    </div>
+                    <Col className={"app-add-button"}>
+                        <Button className={"float-right"}
+                                onClick={() => this.props.history.push('/new_application')}>
+                            Новое заявление
+                        </Button>
+                    </Col>
                 </Row>
                 <Col>
                     {
                         this.state.applications.map((a) => {
-                            return <Application entity={a} />
+                            return <Application history={this.props.history} entity={a} />
                         })
                     }
                 </Col>

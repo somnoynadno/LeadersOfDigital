@@ -27,7 +27,7 @@ class Application extends React.Component {
                 <div className={"status"}>
                     <span>{this.entity.ApplicationStatus.Name}</span>
                 </div>
-                <div className={"add-button"}>
+                <div className={"add-button"} onClick={() => this.props.history.push(`/application/${this.entity.ID}`)}>
                     <span>Редактировать</span>
                 </div>
                 <div className={"delete-button"}>

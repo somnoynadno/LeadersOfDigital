@@ -11,6 +11,7 @@ import Header from "../../components/Header";
 
 import '../../styles/ViewApplication.css';
 import {clientAPI} from "../../http/ClientAPI";
+import {STATIC_URL} from "../../globals";
 
 class ViewApplication extends React.Component {
     constructor(props) {
@@ -77,7 +78,7 @@ class ViewApplication extends React.Component {
         else return (
             <Container>
                 <Header />
-                <Row className={"row-auto"} id={"client-info"}>
+                <Row className={"row-auto"} id={"application-info"}>
                     <Col className={"col-auto"}>
                         <h3>Заявление №{this.state.application.ID}</h3>
                         <span id={"app_description"}>{this.state.application.ServiceType.Description}</span>
@@ -85,7 +86,7 @@ class ViewApplication extends React.Component {
                     <div id={"changelog"}>
                         <Dropdown>
                             <Dropdown.Toggle variant="default" id="dropdown-basic">
-                                Changelog
+                                История изменений
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
@@ -93,7 +94,7 @@ class ViewApplication extends React.Component {
                                     return <Dropdown.Item>{(new Date(cl.CreatedAt)).toLocaleString('ru', {
                                         year: 'numeric',
                                         month: 'long',
-                                        day: 'numeric',})}}: {cl.Message}</Dropdown.Item>
+                                        day: 'numeric',})}: {cl.Message}</Dropdown.Item>
                                 })}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -126,13 +127,15 @@ class ViewApplication extends React.Component {
                                         <span className={"doc_status"}>Прикреплено</span>
                                     </Col>
                                     <Col>
-                                        <Button>Посмотреть</Button>
+                                        <Button onClick={() => window.open(STATIC_URL + "/" + d["D"].Link)}>
+                                            Посмотреть
+                                        </Button>
                                     </Col>
                                 </Row><hr /></div>
                             }
                     })}
                 </Form>
-
+                <i>Документы можно прикреплять только в формате .pdf</i>
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
                         <Form id={"comment-form"}>

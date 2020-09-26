@@ -80,8 +80,10 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// create file
-	name, _ := uuid.NewUUID()
-	link := os.Getenv("upload_path") + "/" + name.String() + ".pdf"
+	nameUUID, _ := uuid.NewUUID()
+	name := nameUUID.String() + ".pdf"
+
+	link := os.Getenv("upload_path") + "/" + name
 	dst, err := os.Create(link)
 	defer dst.Close()
 
@@ -100,7 +102,7 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	Document.ClientID = clientID
 	Document.ApplicationID = uint(applicationID)
 	Document.DocumentTypeID = uint(dtID)
-	Document.Link = link
+	Document.Link = name
 
 	err = db.Create(Document).Error
 

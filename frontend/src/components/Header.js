@@ -13,9 +13,12 @@ class Header extends React.Component {
         return (
             <Row className={"mb-4"}>
                 <Col className={"header"}>
-                    <span id={"site-name"}><b>ГазПром</b> Документы</span>
-                    <div id={"out-button"}>
-                        <b>Выход</b>
+                    <span onClick={() => window.location.href = '/'}
+                          id={"site-name"} className={"link-style"}>
+                        <b>ГазПром</b> Документы
+                    </span>
+                    <div id={"out-button"} onClick={() => window.location.href = '/logout'}>
+                        <b className={"link-style"}>Выход</b>
                     </div>
                     <a href={"/applications"}>
                         <div id={"profile-button"}>

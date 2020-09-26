@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Route, Switch, withRouter} from "react-router-dom"
+import {Route, Switch, withRouter, Redirect} from "react-router-dom"
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Applications from "./pages/client/Applications";
-import NewApplication from "./pages/client/NewApplication";
-import ViewApplication from "./pages/client/ViewApplication";
+import Applications from "./pages/application/Applications";
+import NewApplication from "./pages/application/NewApplication";
+import ViewApplication from "./pages/application/ViewApplication";
 
 
 class App extends React.Component {
@@ -26,11 +26,19 @@ class App extends React.Component {
             <Route history={history} path='/register' component={Register} />
             {/* Common */}
             <Route history={history} path='/application/:application_id' component={ViewApplication} />
-            <Route exact history={history} path='/' component={null}/>
+            <Route exact history={history} path='/' component={Index}/>
             <Route exact history={history} path='/logout'><Logout /></Route>
           </Switch>
         </div>
     );
+  }
+}
+
+function Index() {
+  if (localStorage.getItem("token")) {
+    return <Redirect to={'/applications'} />
+  } else {
+    return <Redirect to={'/login'} />
   }
 }
 

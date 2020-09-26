@@ -51,7 +51,7 @@ class NewApplication extends React.Component {
         return (
             <Container>
                 <Header />
-                <Row className={"row-auto"} id={"client-info"}>
+                <Row className={"row-auto"} id={"application-info"}>
                     <Col className={"col-auto"}>
                         <h3><b>Новое заяление</b></h3>
                     </Col>

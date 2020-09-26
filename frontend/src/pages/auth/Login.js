@@ -72,7 +72,7 @@ class Login extends React.Component {
                 <Row className="justify-content-center align-items-center p-3" style={formStyle}>
                     <Col className="col-auto text-center p-4 align-self-center">
                         <h5>Я клиент Газпромбанка</h5>
-                        <Form id={"client-form"}>
+                        <Form id={"application-form"}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control onChange={this.handleClientEmailChange}
                                               type="email" value={this.state.clientEmail} placeholder="E-Mail"/>
