@@ -12,6 +12,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
+	"golang.org/x/crypto/nacl/sign"
+	"crypto/rand"
 )
 
 func loginEmployee(account Account) map[string]interface{} {
@@ -133,6 +135,9 @@ var Registration = func(w http.ResponseWriter, r *http.Request) {
 		user.Surname = account.Surname
 		user.Patronymic = account.Patronymic
 
+		publicKey, privateKey, err := sign.GenerateKey(rand.Reader)
+		user.PrivateKey = privateKey
+		user.PublicKey = publicKey
 		err = db.Create(&user).Error
 
 		if err != nil {
@@ -148,6 +153,10 @@ var Registration = func(w http.ResponseWriter, r *http.Request) {
 		user.Name = account.Name
 		user.Surname = account.Surname
 		user.Patronymic = account.Patronymic
+
+		publicKey, privateKey, err := sign.GenerateKey(rand.Reader)
+		user.PrivateKey = privateKey
+		user.PublicKey = publicKey
 
 		err = db.Create(&user).Error
 

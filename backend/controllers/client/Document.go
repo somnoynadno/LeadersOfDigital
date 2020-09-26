@@ -5,12 +5,14 @@ import (
 	"LeadersOfDigital/backend/loghub"
 	"LeadersOfDigital/backend/models/entities"
 	u "LeadersOfDigital/backend/utils"
+	"golang.org/x/crypto/nacl/sign"
 	"encoding/json"
 	"errors"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
+	"crypto/sha256"
 	"io"
 	"net/http"
 	"os"
@@ -31,7 +33,7 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 
 	db := db.GetDB()
 	application := &entities.Application{}
-	err = db.First(&application, uint(applicationID)).Error
+	err = db.Preload("Client").First(&application, uint(applicationID)).Error
 
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -91,6 +93,16 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 		u.HandleInternalError(w, err)
 		return
 	}
+	//sign file
+	h := sha256.New()
+	var s []byte
+
+	if _, err := io.Copy(h, file); err != nil {
+		log.Fatal(err)
+	}
+	signhash := h.Sum(nil)
+	privateKey := application.Client.PrivateKey
+	sign.Sign(s, signhash, privateKey)
 
 	// copy the uploaded file to the created file on the filesystem
 	if _, err := io.Copy(dst, file); err != nil {
@@ -98,12 +110,13 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	Document := &entities.Document{}
 	Document.ClientID = clientID
 	Document.ApplicationID = uint(applicationID)
 	Document.DocumentTypeID = uint(dtID)
 	Document.Link = name
-
+	Document.Signature = s
 	err = db.Create(Document).Error
 
 	if err != nil {

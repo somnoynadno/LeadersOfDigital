@@ -10,4 +10,5 @@ type Document struct {
 	ApplicationID  uint
 	Application    *Application  `json:",omitempty"`
 	ClientID       uint
+	Signature		[]byte
 }
