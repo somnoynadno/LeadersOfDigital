@@ -35,6 +35,7 @@ func InitRouter() *mux.Router {
 	clientAPI.HandleFunc("/service_types", common.GetAllServiceTypes).Methods(http.MethodGet, http.MethodOptions)
 
 	clientAPI.HandleFunc("/application/{id}/upload_document", client.UploadDocument).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/add_comment", common.AddClientComment).Methods(http.MethodPost, http.MethodOptions)
 	clientAPI.HandleFunc("/document/{id}", client.DeleteDocument).Methods(http.MethodDelete, http.MethodOptions)
 
 	employeeAPI.HandleFunc("/me", employee.RetrieveEmployee).Methods(http.MethodGet, http.MethodOptions)
@@ -43,6 +44,8 @@ func InitRouter() *mux.Router {
 	employeeAPI.HandleFunc("/applications", employee.GetEmployeesApplications).Methods(http.MethodGet, http.MethodOptions)
 	employeeAPI.HandleFunc("/application/{id}", employee.RetrieveApplication).Methods(http.MethodGet, http.MethodOptions)
 	employeeAPI.HandleFunc("/application/{id}", employee.UpdateApplication).Methods(http.MethodPut, http.MethodOptions)
+
+	clientAPI.HandleFunc("/add_comment", common.AddEmployeeComment).Methods(http.MethodPost, http.MethodOptions)
 
 	employeeAPI.HandleFunc("/application_statuses", employee.GetAllApplicationStatuses).Methods(http.MethodGet, http.MethodOptions)
 

@@ -2,6 +2,7 @@ package employee
 
 import (
 	"LeadersOfDigital/backend/db"
+	"LeadersOfDigital/backend/loghub"
 	"LeadersOfDigital/backend/models/entities"
 	u "LeadersOfDigital/backend/utils"
 	"encoding/json"
@@ -97,6 +98,12 @@ var UpdateApplication = func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		u.HandleBadRequest(w, err)
+		return
+	}
+
+	err = loghub.AddChangeLog(Application.ID, "Статус заявки изменён")
+	if err != nil {
+		u.HandleInternalError(w, err)
 		return
 	}
 
