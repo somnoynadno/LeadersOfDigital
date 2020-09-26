@@ -136,6 +136,17 @@ class ViewApplication extends React.Component {
                     })}
                 </Form>
                 <i>Документы можно прикреплять только в формате .pdf</i>
+                <Row id={"app-control"}>
+                    <Col id={"accept"}>
+                        <Button>Одобрить</Button>
+                    </Col>
+                    <Col id={"revision"}>
+                        <Button>Отправить на доработку</Button>
+                    </Col>
+                    <Col id={"decline"}>
+                        <Button>Отказать</Button>
+                    </Col>
+                </Row>
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
                         <Form id={"comment-form"}>
