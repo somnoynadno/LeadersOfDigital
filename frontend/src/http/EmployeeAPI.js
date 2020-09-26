@@ -33,6 +33,24 @@ class EmployeeAPI extends API{
             throw new Error(data["message"]);
         }
     }
+
+    AddComment = async (applicationID, text) => {
+        let body = JSON.stringify({ApplicationID: parseInt(applicationID), Text: text});
+
+        let response = await fetch(BASE_URL + `/employee/add_comment`,
+            {method: 'POST', headers: this.headers, body: body});
+
+        let data = await response.json();
+        if (DEBUG) {
+            console.log(response.status, data);
+        }
+
+        if (response.status === 200) {
+            return data;
+        } else {
+            throw new Error(data["message"]);
+        }
+    };
 }
 
 export const employeeAPI = new EmployeeAPI();

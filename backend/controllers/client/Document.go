@@ -2,11 +2,11 @@ package client
 
 import (
 	"LeadersOfDigital/backend/db"
+	"LeadersOfDigital/backend/loghub"
 	"LeadersOfDigital/backend/models/entities"
 	u "LeadersOfDigital/backend/utils"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -20,6 +20,7 @@ import (
 var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
+	docTypeID := params["document_type_id"]
 	clientID := u.GetUserIDFromRequest(r)
 
 	applicationID, err := strconv.ParseUint(id, 10, 32)
@@ -47,8 +48,6 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// parse data
-	docTypeID := r.FormValue("DocumentTypeID")
-	fmt.Println(docTypeID)
 	dtID, err := strconv.ParseUint(docTypeID, 10, 32)
 	if err != nil {
 		u.HandleBadRequest(w, err)
@@ -58,14 +57,14 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	// maximum upload of 10 MB files
 	err = r.ParseMultipartForm(10 << 20)
 	if err != nil {
-		u.HandleInternalError(w, errors.New("file is too big"))
+		u.HandleInternalError(w, err)
 		return
 	}
 
 	// get handler for filename, size and headers
 	file, handler, err := r.FormFile("File")
 	if err != nil {
-		u.HandleInternalError(w, errors.New("error retrieving the file"))
+		u.HandleInternalError(w, err)
 		return
 	}
 
@@ -81,8 +80,10 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// create file
-	name, _ := uuid.NewUUID()
-	link := os.Getenv("upload_path") + "/" + name.String() + ".pdf"
+	nameUUID, _ := uuid.NewUUID()
+	name := nameUUID.String() + ".pdf"
+
+	link := os.Getenv("upload_path") + "/" + name
 	dst, err := os.Create(link)
 	defer dst.Close()
 
@@ -101,13 +102,14 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	Document.ClientID = clientID
 	Document.ApplicationID = uint(applicationID)
 	Document.DocumentTypeID = uint(dtID)
-	Document.Link = link
+	Document.Link = name
 
 	err = db.Create(Document).Error
 
 	if err != nil {
 		u.HandleBadRequest(w, err)
 	} else {
+		_ = loghub.AddChangeLog(application.ID, "Загружен новый файл")
 		res, _ := json.Marshal(Document)
 		u.RespondJSON(w, res)
 	}

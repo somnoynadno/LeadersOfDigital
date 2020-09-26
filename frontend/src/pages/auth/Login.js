@@ -72,7 +72,7 @@ class Login extends React.Component {
                 <Row className="justify-content-center align-items-center p-3" style={formStyle}>
                     <Col className="col-auto text-center p-4 align-self-center client-login">
                         <h5>Я клиент Газпромбанка</h5>
-                        <Form id={"client-form"}>
+                        <Form id={"application-form"}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control onChange={this.handleClientEmailChange}
                                               type="email" value={this.state.clientEmail} placeholder="E-Mail"/>
@@ -88,8 +88,11 @@ class Login extends React.Component {
                                 Войти
                             </Button>
                             <div>{this.state.error1}</div>
-                            <div id={"registration-button"} className={"link-style-2"}>
-                                <a href={"/register"}><span>Зарегистрироваться</span></a>
+                            <div className={"link-style-2"}>
+                                <span style={{fontSize: "12pt"}}
+                                      onClick={() => this.props.history.push('/register')}>
+                                    Зарегистрироваться
+                                </span>
                             </div>
                         </Form>
                     </Col>

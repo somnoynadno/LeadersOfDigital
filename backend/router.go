@@ -34,9 +34,11 @@ func InitRouter() *mux.Router {
 
 	clientAPI.HandleFunc("/service_types", common.GetAllServiceTypes).Methods(http.MethodGet, http.MethodOptions)
 
-	clientAPI.HandleFunc("/application/{id}/upload_document", client.UploadDocument).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}/upload_document/{document_type_id}", client.UploadDocument).Methods(http.MethodPost, http.MethodOptions)
 	clientAPI.HandleFunc("/add_comment", common.AddClientComment).Methods(http.MethodPost, http.MethodOptions)
 	clientAPI.HandleFunc("/document/{id}", client.DeleteDocument).Methods(http.MethodDelete, http.MethodOptions)
+
+	clientAPI.HandleFunc("/add_comment", common.AddEmployeeComment).Methods(http.MethodPost, http.MethodOptions)
 
 	employeeAPI.HandleFunc("/me", employee.RetrieveEmployee).Methods(http.MethodGet, http.MethodOptions)
 
@@ -45,15 +47,13 @@ func InitRouter() *mux.Router {
 	employeeAPI.HandleFunc("/application/{id}", employee.RetrieveApplication).Methods(http.MethodGet, http.MethodOptions)
 	employeeAPI.HandleFunc("/application/{id}", employee.UpdateApplication).Methods(http.MethodPut, http.MethodOptions)
 
-	clientAPI.HandleFunc("/add_comment", common.AddEmployeeComment).Methods(http.MethodPost, http.MethodOptions)
-
 	employeeAPI.HandleFunc("/application_statuses", employee.GetAllApplicationStatuses).Methods(http.MethodGet, http.MethodOptions)
 
 	// middleware usage
 	// do NOT modify the order
 	api.Use(middleware.CORS)    // enable CORS headers
 	api.Use(middleware.LogPath) // log HTTP request URI and method
-	api.Use(middleware.LogBody) // log HTTP request body
+	//api.Use(middleware.LogBody) // log HTTP request body
 
 	clientAPI.Use(middleware.JwtAuthentication)   // check JWT token
 	employeeAPI.Use(middleware.JwtAuthentication) // check JWT token
