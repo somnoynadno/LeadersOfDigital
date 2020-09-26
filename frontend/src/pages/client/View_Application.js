@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
 import Header from "../../components/Header";
 
 import '../../styles/View_Application.css';
@@ -74,8 +76,77 @@ class View_Application extends React.Component {
                         </Col>
                     </Row>
                 </Form>
-                <Container>
-                </Container>
+                <Row id={"comments"}>
+                    <Col className={"col-12"}>
+                        <Form>
+                            <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text>Комментарий</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <FormControl as="textarea" aria-label="With textarea" />
+                            </InputGroup>
+                            <Button>Отправить</Button>
+                        </Form>
+                    </Col>
+                    <Col id={"comments col-12"}>
+                        <Row className={"comment"}>
+                            <Col className={"col-3"}>
+                                <div className={"author"}>
+                                    <span>Вы</span>
+                                    <span>ФИО сотрудника</span>
+                                </div>
+                            </Col>
+                            <Col className={"col-9"}>
+                                <div className={"text"}>
+                                    Текст комментария
+                                    <time>01-01-1971</time>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className={"comment"}>
+                            <Col className={"col-3"}>
+                                <div className={"author"}>
+                                    <span>Вы</span>
+                                    <span>ФИО сотрудника</span>
+                                </div>
+                            </Col>
+                            <Col className={"col-9"}>
+                                <div className={"text"}>
+                                    Текст комментария
+                                    <time>01-01-1971</time>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className={"comment"}>
+                            <Col className={"col-3"}>
+                                <div className={"author"}>
+                                    <span>Вы</span>
+                                    <span>ФИО сотрудника</span>
+                                </div>
+                            </Col>
+                            <Col className={"col-9"}>
+                                <div className={"text"}>
+                                    Текст комментария
+                                    <time>01-01-1971</time>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className={"comment"}>
+                            <Col className={"col-3"}>
+                                <div className={"author"}>
+                                    <span>Вы</span>
+                                    <span>ФИО сотрудника</span>
+                                </div>
+                            </Col>
+                            <Col className={"col-9"}>
+                                <div className={"text"}>
+                                    Текст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментарияТекст комментария
+                                    <time>01-01-1971</time>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
             </Container>
         )
     }
