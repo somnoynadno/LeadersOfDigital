@@ -38,7 +38,7 @@ func InitRouter() *mux.Router {
 	clientAPI.HandleFunc("/add_comment", common.AddClientComment).Methods(http.MethodPost, http.MethodOptions)
 	clientAPI.HandleFunc("/document/{id}", client.DeleteDocument).Methods(http.MethodDelete, http.MethodOptions)
 
-	clientAPI.HandleFunc("/add_comment", common.AddEmployeeComment).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/add_comment", common.AddClientComment).Methods(http.MethodPost, http.MethodOptions)
 
 	employeeAPI.HandleFunc("/me", employee.RetrieveEmployee).Methods(http.MethodGet, http.MethodOptions)
 
@@ -49,14 +49,21 @@ func InitRouter() *mux.Router {
 
 	employeeAPI.HandleFunc("/application_statuses", employee.GetAllApplicationStatuses).Methods(http.MethodGet, http.MethodOptions)
 
+	employeeAPI.HandleFunc("/add_comment", common.AddEmployeeComment).Methods(http.MethodPost, http.MethodOptions)
+
 	// middleware usage
 	// do NOT modify the order
 	api.Use(middleware.CORS)    // enable CORS headers
 	api.Use(middleware.LogPath) // log HTTP request URI and method
-	//api.Use(middleware.LogBody) // log HTTP request body
+	// api.Use(middleware.LogBody) // log HTTP request body (debugging)
 
-	clientAPI.Use(middleware.JwtAuthentication)   // check JWT token
-	employeeAPI.Use(middleware.JwtAuthentication) // check JWT token
+	// checking JWT
+	clientAPI.Use(middleware.JwtAuthentication)
+	employeeAPI.Use(middleware.JwtAuthentication)
+
+	// security features
+	clientAPI.Use(middleware.CheckClientRole)
+	employeeAPI.Use(middleware.CheckEmployeeRole)
 
 	return router
 }

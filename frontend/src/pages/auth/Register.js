@@ -38,7 +38,7 @@ class Register extends React.Component {
                                 <Form.Control type="password" placeholder="Пароль" />
                             </Form.Group>
 
-                            <Button variant="primary" type="submit">
+                            <Button className={"mb-2"} disabled={true} variant="primary" type="submit">
                                 Зарегистрироваться
                             </Button>
                         </Form>
