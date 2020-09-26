@@ -8,4 +8,5 @@ type DocumentType struct {
 	Description   string
 	ServiceTypeID uint
 	ServiceType   ServiceType
+	ExampleLink   *string
 }

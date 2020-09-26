@@ -2,6 +2,7 @@ package main
 
 import (
 	"LeadersOfDigital/backend/controllers/auth"
+	"LeadersOfDigital/backend/controllers/client"
 	"LeadersOfDigital/backend/controllers/common"
 	"LeadersOfDigital/backend/controllers/employee"
 	"LeadersOfDigital/backend/middleware"
@@ -23,12 +24,12 @@ func InitRouter() *mux.Router {
 	authAPI.HandleFunc("/register", auth.Registration).Methods(http.MethodPost, http.MethodOptions)
 	authAPI.HandleFunc("/login", auth.Login).Methods(http.MethodPost, http.MethodOptions)
 
-	clientAPI.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/me", client.RetrieveClient).Methods(http.MethodGet, http.MethodOptions)
 
-	clientAPI.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	clientAPI.HandleFunc("/application", nil).Methods(http.MethodPost, http.MethodOptions)
-	clientAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
-	clientAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
+	clientAPI.HandleFunc("/applications", client.GetClientsApplications).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/application", client.CreateApplication).Methods(http.MethodPost, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}", client.RetrieveApplication).Methods(http.MethodGet, http.MethodOptions)
+	clientAPI.HandleFunc("/application/{id}", client.DeleteApplication).Methods(http.MethodDelete, http.MethodOptions)
 	clientAPI.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
 
 	clientAPI.HandleFunc("/service_types", common.GetAllServiceTypes).Methods(http.MethodGet, http.MethodOptions)
@@ -37,12 +38,12 @@ func InitRouter() *mux.Router {
 	clientAPI.HandleFunc("/document/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
 	clientAPI.HandleFunc("/document/{id}", nil).Methods(http.MethodDelete, http.MethodOptions)
 
-	employeeAPI.HandleFunc("/me", nil).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/me", employee.RetrieveEmployee).Methods(http.MethodGet, http.MethodOptions)
 
-	employeeAPI.HandleFunc("/free_applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	employeeAPI.HandleFunc("/applications", nil).Methods(http.MethodGet, http.MethodOptions)
-	employeeAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodGet, http.MethodOptions)
-	employeeAPI.HandleFunc("/application/{id}", nil).Methods(http.MethodPut, http.MethodOptions)
+	employeeAPI.HandleFunc("/free_applications", employee.GetFreeApplications).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/applications", employee.GetEmployeesApplications).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/application/{id}", employee.RetrieveApplication).Methods(http.MethodGet, http.MethodOptions)
+	employeeAPI.HandleFunc("/application/{id}", employee.UpdateApplication).Methods(http.MethodPut, http.MethodOptions)
 	employeeAPI.HandleFunc("/application/{id}/changelog", nil).Methods(http.MethodGet, http.MethodOptions)
 
 	employeeAPI.HandleFunc("/application_statuses", employee.GetAllApplicationStatuses).Methods(http.MethodGet, http.MethodOptions)
