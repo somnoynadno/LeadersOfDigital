@@ -88,8 +88,11 @@ class Login extends React.Component {
                                 Войти
                             </Button>
                             <div>{this.state.error1}</div>
-                            <div id={"registration-button"} className={"link-style-2"}>
-                                <a href={"/register"}><span>Зарегистрироваться</span></a>
+                            <div className={"link-style-2"}>
+                                <span style={{fontSize: "12pt"}}
+                                      onClick={() => this.props.history.push('/register')}>
+                                    Зарегистрироваться
+                                </span>
                             </div>
                         </Form>
                     </Col>
