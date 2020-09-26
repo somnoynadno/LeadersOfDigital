@@ -70,7 +70,7 @@ class Login extends React.Component {
             <Container className="h-100" style={containerStyle}>
                 {/* TODO: add style */}
                 <Row className="justify-content-center align-items-center p-3" style={formStyle}>
-                    <Col className="col-auto text-center p-4 align-self-center">
+                    <Col className="col-auto text-center p-4 align-self-center client-login">
                         <h5>Я клиент Газпромбанка</h5>
                         <Form id={"client-form"}>
                             <Form.Group controlId="formBasicEmail">
@@ -93,9 +93,8 @@ class Login extends React.Component {
                             </div>
                         </Form>
                     </Col>
-
-                    <Col className="col-auto text-center p-4 align-self-center mb-4">
-                        <h5>Я сотрудник Газпромбанка</h5>
+                    <Col className="col-auto text-center p-4 align-self-center mb-4 employee-login">
+                        <h5>Я cотрудник Газпромбанка</h5>
                         <Form id={"employee-form"}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control onChange={this.handleEmployeeEmailChange}
