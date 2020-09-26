@@ -11,7 +11,7 @@ import (
 
 var RetrieveClient = func(w http.ResponseWriter, r *http.Request) {
 	Client := &entities.Client{}
-	clientID := r.Context().Value("userID").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 
 	db := db.GetDB()
 	err := db.First(&Client, clientID).Error

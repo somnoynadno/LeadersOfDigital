@@ -11,10 +11,10 @@ import (
 
 var RetrieveEmployee = func(w http.ResponseWriter, r *http.Request) {
 	Employee := &entities.Employee{}
-	clientID := r.Context().Value("user_id").(uint)
+	employeeID := u.GetUserIDFromRequest(r)
 
 	db := db.GetDB()
-	err := db.First(&Employee, clientID).Error
+	err := db.First(&Employee, employeeID).Error
 
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {

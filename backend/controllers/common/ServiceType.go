@@ -12,7 +12,7 @@ var GetAllServiceTypes = func(w http.ResponseWriter, r *http.Request) {
 	var entities []entities.ServiceType
 
 	db := db.GetDB()
-	err := db.Find(&entities).Error
+	err := db.Preload("DocumentTypes").Find(&entities).Error
 
 	if err != nil {
 		u.HandleBadRequest(w, err)

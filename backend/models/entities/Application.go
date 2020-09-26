@@ -5,14 +5,14 @@ import "github.com/jinzhu/gorm"
 type Application struct {
 	gorm.Model
 	ApplicationStatusID uint
-	ApplicationStatus   ApplicationStatus
-	Documents           []*Document
-	ChangeLogs          []*ChangeLog
+	ApplicationStatus   *ApplicationStatus `json:",omitempty"`
+	Documents           []*Document        `json:",omitempty"`
+	ChangeLogs          []*ChangeLog       `json:",omitempty"`
 	EmployeeID          *uint
-	Employee            *Employee
+	Employee            *Employee          `json:",omitempty"`
 	ClientID            uint
-	Client              Client
+	Client              *Client            `json:",omitempty"`
 	ServiceTypeID       uint
-	ServiceType         ServiceType
-	Comments            []*Comment
+	ServiceType         *ServiceType       `json:",omitempty"`
+	Comments            []*Comment         `json:",omitempty"`
 }

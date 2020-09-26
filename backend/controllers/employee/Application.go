@@ -14,8 +14,8 @@ import (
 var CreateApplication = func(w http.ResponseWriter, r *http.Request) {
 	Application := &entities.Application{}
 	err := json.NewDecoder(r.Body).Decode(Application)
-	employeeID := r.Context().Value("user_id").(uint)
 
+	employeeID := u.GetUserIDFromRequest(r)
 	if err != nil {
 		u.HandleBadRequest(w, err)
 		return
@@ -52,7 +52,7 @@ var RetrieveApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	employeeID := r.Context().Value("user_id").(uint)
+	employeeID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != employeeID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -86,7 +86,7 @@ var UpdateApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	employeeID := r.Context().Value("user_id").(uint)
+	employeeID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != employeeID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -126,7 +126,7 @@ var DeleteApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	employeeID := r.Context().Value("user_id").(uint)
+	employeeID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != employeeID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -143,7 +143,7 @@ var DeleteApplication = func(w http.ResponseWriter, r *http.Request) {
 
 var GetEmployeesApplications = func(w http.ResponseWriter, r *http.Request) {
 	var entities []entities.Application
-	employeeID := r.Context().Value("user_id").(uint)
+	employeeID := u.GetUserIDFromRequest(r)
 
 	db := db.GetDB()
 	err := db.Where("employee_id = ?", employeeID).Find(&entities).Error

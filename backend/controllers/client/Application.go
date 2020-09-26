@@ -14,7 +14,7 @@ import (
 var CreateApplication = func(w http.ResponseWriter, r *http.Request) {
 	Application := &entities.Application{}
 	err := json.NewDecoder(r.Body).Decode(Application)
-	clientID := r.Context().Value("user_id").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 
 	if err != nil {
 		u.HandleBadRequest(w, err)
@@ -41,7 +41,17 @@ var RetrieveApplication = func(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 
 	db := db.GetDB()
-	err := db.First(&Application, id).Error
+	// база данных не сдохнет
+	// я это гарантирую
+	err := db.Preload("ApplicationStatus").
+		Preload("Documents").
+		Preload("ChangeLogs").
+		Preload("Comments").
+		Preload("ServiceType").
+		Preload("ServiceType.DocumentTypes").
+		Preload("Client").
+		Preload("Employee").
+		First(&Application, id).Error
 
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -52,7 +62,7 @@ var RetrieveApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	clientID := r.Context().Value("user_id").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != clientID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -86,7 +96,7 @@ var UpdateApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	clientID := r.Context().Value("user_id").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != clientID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -126,7 +136,7 @@ var DeleteApplication = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	clientID := r.Context().Value("user_id").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 	if Application.ClientID != clientID {
 		u.HandleForbidden(w, errors.New("forbidden"))
 		return
@@ -143,10 +153,14 @@ var DeleteApplication = func(w http.ResponseWriter, r *http.Request) {
 
 var GetClientsApplications = func(w http.ResponseWriter, r *http.Request) {
 	var entities []entities.Application
-	clientID := r.Context().Value("user_id").(uint)
+	clientID := u.GetUserIDFromRequest(r)
 
 	db := db.GetDB()
-	err := db.Where("client_id = ?", clientID).Find(&entities).Error
+	err := db.Preload("ApplicationStatus").
+		Preload("Documents").
+		Preload("ServiceType").
+		Preload("ServiceType.DocumentTypes").
+		Where("client_id = ?", clientID).Find(&entities).Error
 
 	if err != nil {
 		u.HandleBadRequest(w, err)

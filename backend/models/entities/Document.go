@@ -6,7 +6,8 @@ type Document struct {
 	gorm.Model
 	Link           string
 	DocumentTypeID uint
-	DocumentType   DocumentType
+	DocumentType   *DocumentType `json:",omitempty"`
 	ApplicationID  uint
-	Application    Application
+	Application    *Application  `json:",omitempty"`
+	ClientID       uint
 }

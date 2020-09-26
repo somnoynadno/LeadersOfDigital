@@ -6,5 +6,5 @@ type ServiceType struct {
 	gorm.Model
 	Name          string
 	Description   string
-	DocumentTypes []*DocumentType
+	DocumentTypes []*DocumentType `json:",omitempty"`
 }

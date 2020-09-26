@@ -16,7 +16,7 @@ import (
 
 func loginEmployee(account Account) map[string]interface{} {
 	user := &entities.Employee{}
-	err := db.GetDB().Where("username = ?", account.Email).First(user).Error
+	err := db.GetDB().Where("email = ?", account.Email).First(user).Error
 
 	if err != nil {
 		log.Warn(err)
@@ -43,7 +43,7 @@ func loginEmployee(account Account) map[string]interface{} {
 
 func loginClient(account Account) map[string]interface{} {
 	user := &entities.Client{}
-	err := db.GetDB().Where("username = ?", account.Email).First(user).Error
+	err := db.GetDB().Where("email = ?", account.Email).First(user).Error
 
 	if err != nil {
 		log.Warn(err)
@@ -75,8 +75,8 @@ func loginClient(account Account) map[string]interface{} {
 }
 
 type Account struct {
-	Email string
-	Password string
+	Email      string
+	Password   string
 	IsEmployee bool
 }
 
@@ -128,7 +128,7 @@ var Registration = func(w http.ResponseWriter, r *http.Request) {
 		user := &entities.Employee{}
 
 		user.Email = account.Email
-		user.Password = account.Email
+		user.Password, _ = u.HashPassword(account.Password)
 		user.Name = account.Name
 		user.Surname = account.Surname
 		user.Patronymic = account.Patronymic
@@ -144,7 +144,7 @@ var Registration = func(w http.ResponseWriter, r *http.Request) {
 		user := &entities.Client{}
 
 		user.Email = account.Email
-		user.Password = account.Email
+		user.Password, _ = u.HashPassword(account.Password)
 		user.Name = account.Name
 		user.Surname = account.Surname
 		user.Patronymic = account.Patronymic
