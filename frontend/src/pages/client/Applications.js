@@ -12,12 +12,17 @@ import {clientAPI} from "../../http/ClientAPI";
 class Applications extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {title: "Мои заявки"}
+        this.state = {
+            applications: [],
+            user: null
+        };
     }
 
     componentDidMount = async () => {
+        await clientAPI.GetClient().then((res) => this.setState({user: res}));
         await clientAPI.GetClientsApplications()
-            .then((res) => console.log(res))
+            .then((res) => this.setState({applications: res}));
+        console.log(this.state.applications);
     }
 
     render () {
@@ -26,20 +31,21 @@ class Applications extends React.Component {
                 <Header />
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
-                        <h3>Кеков Кек Кекович</h3>
+                        {this.state.user === null ? '' :
+                            <h3>{this.state.user.Name + " " + this.state.user.Surname}</h3>
+                        }
                         <h4>Мои заявки</h4>
                     </Col>
                     <div className={"app-add-button"}>
-                        <Button onClick={() => this.props.history.push('/new_application')}>Написать заявление</Button>
+                        <Button onClick={() => this.props.history.push('/new_application')}>Новое заявление</Button>
                     </div>
                 </Row>
                 <Col>
-                    <Application />
-                    <Application />
-                    <Application />
-                    <Application />
-                    <Application />
-                    <Application />
+                    {
+                        this.state.applications.map((a) => {
+                            return <Application entity={a} />
+                        })
+                    }
                 </Col>
             </Container>
         )

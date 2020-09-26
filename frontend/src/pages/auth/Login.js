@@ -89,7 +89,7 @@ class Login extends React.Component {
                             </Button>
                             <div>{this.state.error1}</div>
                             <div id={"registration-button"} className={"link-style-2"}>
-                                <span>Зарегистрироваться</span>
+                                <a href={"/register"}><span>Зарегистрироваться</span></a>
                             </div>
                         </Form>
                     </Col>

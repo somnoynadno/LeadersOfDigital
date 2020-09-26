@@ -80,7 +80,7 @@ class ViewApplication extends React.Component {
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
                         <h3>Заявление №{this.state.application.ID}</h3>
-                        <span>{this.state.application.ServiceType.Description}</span>
+                        <span id={"app_description"}>{this.state.application.ServiceType.Description}</span>
                     </Col>
                     <div id={"changelog"}>
                         <Dropdown>
@@ -90,7 +90,10 @@ class ViewApplication extends React.Component {
 
                             <Dropdown.Menu>
                                 {this.state.application.ChangeLogs.map((cl) => {
-                                    return <Dropdown.Item>{cl.CreatedAt.toString()}: {cl.Message}</Dropdown.Item>
+                                    return <Dropdown.Item>{(new Date(cl.CreatedAt)).toLocaleString('ru', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',})}}: {cl.Message}</Dropdown.Item>
                                 })}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -129,16 +132,14 @@ class ViewApplication extends React.Component {
                             }
                     })}
                 </Form>
+
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
-                        <Form>
+                        <Form id={"comment-form"}>
                             <InputGroup>
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text>Комментарий</InputGroup.Text>
-                                </InputGroup.Prepend>
                                 <FormControl as="textarea" aria-label="With textarea" />
                             </InputGroup>
-                            <Button>Отправить</Button>
+                            <Button>Отправить комментарий</Button>
                         </Form>
                     </Col>
                     <Col id={"comments col-12"}>

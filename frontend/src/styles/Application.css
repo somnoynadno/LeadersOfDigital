@@ -1,12 +1,42 @@
 .application {
     width: 100%;
-    outline: 1px solid black;
     justify-content: space-between;
+    font-family: 'PT Sans', sans-serif;
+    background-color: #EEF1F3;
+    transition: 0.3s;
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.application:hover{
+    background-color: #D7DEE9;
+    cursor: pointer;
 }
 
 .application div {
-    outline: 1px solid black;
     margin: 10px;
+    color: #0D356C;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.application div.add-button {
+    transition: 0.3s;
+}
+
+.application div.add-button:hover {
+    color: white;
+    background-color: #508BE2;
+}
+
+.application div.delete-button {
+    color: #C84F4F;
+    transition: 0.3s;
+}
+
+.application div.delete-button:hover {
+    color: white;
+    background-color: #C84F4F;
 }
 
 .application div.name {
