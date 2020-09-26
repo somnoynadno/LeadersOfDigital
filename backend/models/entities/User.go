@@ -5,5 +5,5 @@ type User struct {
 	Surname    string
 	Patronymic *string
 	Email      string
-	Password   string `json:"-"`
+	Password   string
 }

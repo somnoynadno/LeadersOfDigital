@@ -65,6 +65,24 @@ class ClientAPI extends API {
             throw new Error(data["message"]);
         }
     }
+
+    CreateApplication = async (serviceTypeID) => {
+        let body = JSON.stringify({ServiceTypeID: parseInt(serviceTypeID)});
+
+        let response = await fetch(BASE_URL + `/client/application`,
+            {method: 'POST', headers: this.headers, body: body});
+
+        let data = await response.json();
+        if (DEBUG) {
+            console.log(response.status, data);
+        }
+
+        if (response.status === 200) {
+            return data;
+        } else {
+            throw new Error(data["message"]);
+        }
+    };
 }
 
 export const clientAPI = new ClientAPI();

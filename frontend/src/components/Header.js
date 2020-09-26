@@ -10,7 +10,8 @@ class Header extends React.Component {
     }
 
     render () {
-        return <Row>
+        return (
+            <Row className={"mb-4"}>
                 <Col className={"header"}>
                     <span id={"site-name"}><b>ГазПром</b> Документы</span>
                     <a href={"empty"}>
@@ -20,6 +21,7 @@ class Header extends React.Component {
                     </a>
                 </Col>
             </Row>
+        )
     }
 }
 

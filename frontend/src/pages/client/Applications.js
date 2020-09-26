@@ -7,11 +7,17 @@ import Header from "../../components/Header";
 import Application from "../../components/Application";
 
 import '../../styles/Applications.css';
+import {clientAPI} from "../../http/ClientAPI";
 
 class Applications extends React.Component {
     constructor(props) {
         super(props);
         this.state = {title: "Мои заявки"}
+    }
+
+    componentDidMount = async () => {
+        await clientAPI.GetClientsApplications()
+            .then((res) => console.log(res))
     }
 
     render () {
@@ -24,7 +30,7 @@ class Applications extends React.Component {
                         <h4>Мои заявки</h4>
                     </Col>
                     <div className={"app-add-button"}>
-                        <Button>Написать заявление</Button>
+                        <Button onClick={() => this.props.history.push('/new_application')}>Написать заявление</Button>
                     </div>
                 </Row>
                 <Col>

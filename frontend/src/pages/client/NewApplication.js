@@ -8,11 +8,43 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Header from "../../components/Header";
 
 import '../../styles/NewApplication.css';
+import {clientAPI} from "../../http/ClientAPI";
 
 class NewApplication extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {title: "Новое заявление"}
+        this.state = {
+            title: "Новое заявление",
+            services: [],
+            selectedServiceID: null,
+            selectedService: "Выберите тип",
+            documents: [],
+        }
+
+        this.handleServiceTypeChange.bind(this);
+        this.handleContinue.bind(this);
+    }
+
+    componentDidMount = async () => {
+        await clientAPI.GetAllServiceTypes()
+            .then((res) => this.setState({services: res}))
+    }
+
+    handleServiceTypeChange = (ek) => {
+        for (let s of this.state.services) {
+            if (s.ID == ek) {
+                this.setState({
+                    selectedService: s.Name,
+                    documents: s["DocumentTypes"],
+                });
+            }
+        }
+        this.setState({selectedServiceID: ek});
+    }
+
+    handleContinue = async () => {
+        await clientAPI.CreateApplication(this.state.selectedServiceID)
+            .then((res) => this.props.history.push(`/application/${res.ID}`))
     }
 
     render () {
@@ -28,37 +60,33 @@ class NewApplication extends React.Component {
                     <Row>
                         <Col>
                             <span>Выберите нужное заявление</span>
-                            <Dropdown>
+                            <Dropdown onSelect={(ek, e) => this.handleServiceTypeChange(ek)}>
                                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    Заявление
+                                    {this.state.selectedService}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item>Кредит</Dropdown.Item>
-                                    <Dropdown.Item>Ссуда</Dropdown.Item>
-                                    <Dropdown.Item>Посуда</Dropdown.Item>
+                                    {this.state.services.map((s) => {
+                                        return <Dropdown.Item eventKey={s.ID}>{s.Name}</Dropdown.Item>
+                                    })}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            Прикрепите нужные документы
+                            {this.state.documents ?
                             <div>
-                                <span className={"doc_name"}>НДФЛ</span>
-                                <Button>Прикрепить</Button>
-                            </div>
-                            <div>
-                                <span className={"doc_name"}>Трудовая книга</span>
-                                <Button>Прикрепить</Button>
-                            </div>
-                            <div>
-                                <span className={"doc_name"}>Выписка из морга</span>
-                                <Button>Прикрепить</Button>
-                            </div>
+                                Необходимые документы:
+                                {this.state.documents.map((d) => {
+                                    return <div>
+                                        <span className={"doc_name"}>{d.Name}</span>
+                                    </div>
+                                })}
+                            </div> : ''}
                         </Col>
                     </Row>
-                    <Button>Отправить заявление</Button>
+                    <Button className={"mt-2"} onClick={this.handleContinue}>Продолжить</Button>
                 </Form>
             </Container>
         )

@@ -50,7 +50,7 @@ func InitRouter() *mux.Router {
 	// do NOT modify the order
 	api.Use(middleware.CORS)    // enable CORS headers
 	api.Use(middleware.LogPath) // log HTTP request URI and method
-	//api.Use(middleware.LogBody) // log HTTP request body
+	api.Use(middleware.LogBody) // log HTTP request body
 
 	clientAPI.Use(middleware.JwtAuthentication)   // check JWT token
 	employeeAPI.Use(middleware.JwtAuthentication) // check JWT token
