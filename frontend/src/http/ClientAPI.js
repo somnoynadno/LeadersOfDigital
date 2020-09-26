@@ -84,6 +84,22 @@ class ClientAPI extends API {
         }
     };
 
+    DeleteApplication = async (applicationID) => {
+        let response = await fetch(BASE_URL + `/client/application/${applicationID}`,
+            {method: 'DELETE', headers: this.headers});
+
+        let data = await response.json();
+        if (DEBUG) {
+            console.log(response.status, data);
+        }
+
+        if (response.status === 200) {
+            return data;
+        } else {
+            throw new Error(data["message"]);
+        }
+    };
+
     UploadDocument = async (applicationID, formData, documentTypeID) => {
         let h = this.headers;
         delete h["Content-Type"];

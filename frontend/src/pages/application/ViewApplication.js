@@ -8,6 +8,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Header from "../../components/Header";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import '../../styles/ViewApplication.css';
 import {clientAPI} from "../../http/ClientAPI";
@@ -16,6 +17,9 @@ import {STATIC_URL} from "../../globals";
 class ViewApplication extends React.Component {
     constructor(props) {
         super(props);
+
+        this.isEmployee = localStorage.getItem("IsEmployee");
+
         this.state = {
             title: "Просмотр заявления",
             application: null,
@@ -100,8 +104,9 @@ class ViewApplication extends React.Component {
                         </Dropdown>
                     </div>
                 </Row>
+                <hr />
                 <Form>
-                    <h3 className={"mb-2"}>Требуемые документы</h3>
+                    <h3 className={"mb-2"}>Требуемые документы</h3><br />
                     {this.state.documents.map((d) => {
                             if (d["D"] === null) {
                                 return <div><Row className={"doc"}>
@@ -111,12 +116,14 @@ class ViewApplication extends React.Component {
                                     <Col>
                                         <span className={"doc_status"}>Отсутствует</span>
                                     </Col>
-                                    <Col>
-                                        <input type="file" name="File" onChange={this.handleFileChange} />
-                                        <Button onClick={() => this.handleFileUpload(d["DT"])}>
-                                            Загрузить
-                                        </Button>
-                                    </Col>
+                                    {this.isEmployee === "false" ?
+                                        <Col>
+                                            <input type="file" name="File" onChange={this.handleFileChange}/>
+                                            <Button onClick={() => this.handleFileUpload(d["DT"])}>
+                                                Загрузить
+                                            </Button>
+                                        </Col> : <Col />
+                                    }
                                 </Row><hr /></div>
                             } else {
                                 return <div><Row className={"doc"}>
@@ -134,19 +141,20 @@ class ViewApplication extends React.Component {
                                 </Row><hr /></div>
                             }
                     })}
+                    <i>Документы можно прикреплять только в формате .pdf</i>
                 </Form>
-                <i>Документы можно прикреплять только в формате .pdf</i>
-                <Row id={"app-control"}>
-                    <Col id={"accept"}>
-                        <Button>Одобрить</Button>
-                    </Col>
-                    <Col id={"revision"}>
-                        <Button>Отправить на доработку</Button>
-                    </Col>
-                    <Col id={"decline"}>
-                        <Button>Отказать</Button>
-                    </Col>
-                </Row>
+                {this.isEmployee === "true" ?
+                    <Row id={"app-control"} className={"justify-content-end align-items-end"}>
+                        <Col className={"col-auto"}>
+                            <ButtonGroup>
+                                <Button id={"accept"}>Одобрить</Button>
+                                <Button id={"revision"}>Отправить на доработку</Button>
+                                <Button id={"decline"}>Отказать</Button>
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
+                    : ''
+                }
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
                         <Form id={"comment-form"}>
@@ -162,15 +170,18 @@ class ViewApplication extends React.Component {
                                 <Col className={"col-3"}>
                                     <div className={"author"}>
                                         {c.EmployeeID === null ?
-                                            <span>Вы:</span>
+                                            <u>Вы:</u>
                                             :
-                                            <span>Сотрудник банка:</span>
+                                            <u>Сотрудник банка:</u>
                                         }
                                     </div>
                                 </Col>
                                 <Col className={"col-9"}>
                                     <div className={"text"}>
-                                        {c.Text} ({c.CreatedAt})
+                                        {c.Text} ({(new Date(c.CreatedAt)).toLocaleString('ru', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',})})
                                     </div>
                                 </Col>
                             </Row>

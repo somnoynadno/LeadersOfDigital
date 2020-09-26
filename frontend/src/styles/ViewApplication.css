@@ -47,14 +47,14 @@ h3 {
     border: none;
 }
 
-#app-control #accept Button{
+#accept {
     background-color: #65CC7B;
 }
 
-#app-control #revision Button{
+#revision {
     background-color: #F5984E;
 }
 
-#app-control #decline Button{
+#decline {
     background-color: #C84F4F;
 }

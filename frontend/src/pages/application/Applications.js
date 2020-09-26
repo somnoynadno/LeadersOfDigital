@@ -43,6 +43,7 @@ class Applications extends React.Component {
                         </Button>
                     </Col>
                 </Row>
+                <hr />
                 <Col>
                     {
                         this.state.applications.map((a) => {
