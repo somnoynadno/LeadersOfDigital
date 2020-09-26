@@ -7,9 +7,9 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Header from "../../components/Header";
 
-import '../../styles/New_Application.css';
+import '../../styles/NewApplication.css';
 
-class New_Application extends React.Component {
+class NewApplication extends React.Component {
     constructor(props) {
         super(props);
         this.state = {title: "Новое заявление"}
@@ -65,4 +65,4 @@ class New_Application extends React.Component {
     }
 }
 
-export default New_Application;
+export default NewApplication;

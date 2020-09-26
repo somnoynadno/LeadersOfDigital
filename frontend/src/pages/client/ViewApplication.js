@@ -9,9 +9,9 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Header from "../../components/Header";
 
-import '../../styles/View_Application.css';
+import '../../styles/ViewApplication.css';
 
-class View_Application extends React.Component {
+class ViewApplication extends React.Component {
     constructor(props) {
         super(props);
         this.state = {title: "Просмотр заявления"}
@@ -152,4 +152,4 @@ class View_Application extends React.Component {
     }
 }
 
-export default View_Application;
+export default ViewApplication;

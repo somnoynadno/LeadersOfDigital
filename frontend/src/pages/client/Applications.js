@@ -2,7 +2,6 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Header from "../../components/Header";
 import Application from "../../components/Application";
@@ -35,7 +34,6 @@ class Applications extends React.Component {
                     <Application />
                     <Application />
                     <Application />
-
                 </Col>
             </Container>
         )

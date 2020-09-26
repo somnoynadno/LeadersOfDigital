@@ -22,6 +22,7 @@ var CreateApplication = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Application.ClientID = clientID
+	Application.ApplicationStatusID = 1 // new
 
 	db := db.GetDB()
 	err = db.Create(Application).Error
