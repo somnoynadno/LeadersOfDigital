@@ -3,6 +3,19 @@
     margin: 10px;
 }
 
+.app-add-button Button {
+    transition: 0.3s;
+    background-color: #508BE2;
+}
+
+.app-add-button Button:hover {
+    background-color: #0057B6;
+}
+
 #client-info {
    justify-content: space-between;
+}
+
+.col-auto {
+    font-family: 'Montserrat', sans-serif;
 }

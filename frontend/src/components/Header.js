@@ -14,9 +14,12 @@ class Header extends React.Component {
             <Row className={"mb-4"}>
                 <Col className={"header"}>
                     <span id={"site-name"}><b>ГазПром</b> Документы</span>
-                    <a href={"empty"}>
+                    <div id={"out-button"}>
+                        <b>Выход</b>
+                    </div>
+                    <a href={"/applications"}>
                         <div id={"profile-button"}>
-                            Кеков Кек Кекович
+                            <b>Кеков Кек Кекович</b>
                         </div>
                     </a>
                 </Col>

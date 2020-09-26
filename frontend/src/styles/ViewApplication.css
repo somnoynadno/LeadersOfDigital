@@ -8,3 +8,33 @@
     display: block;
     top: 95%;
 }
+
+.doc {
+    margin: 8px;
+    font-family: 'PT Sans', sans-serif;
+}
+
+span.app_description {
+    font-family: 'PT Sans', sans-serif;
+}
+
+h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#comment-form Button {
+    margin: 10px;
+}
+
+.comments span {
+    font-family: 'PT Sans', sans-serif;
+}
+
+.doc Button, #comment-form Button {
+    transition: 0.3s;
+    background-color: #508BE2;
+}
+
+.doc Button:hover, #comment-form Button:hover {
+    background-color: #0057B6;
+}

@@ -23,7 +23,7 @@ class Application extends React.Component {
                     <span>Статус заявки</span>
                 </div>
                 <div className={"add-button"}>
-                    <span>Добавить документы</span>
+                    <span>Редактировать заявление</span>
                 </div>
                 <div className={"delete-button"}>
                     <span>Удалить заявку</span>

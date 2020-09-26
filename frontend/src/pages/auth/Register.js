@@ -21,6 +21,15 @@ class Register extends React.Component {
                             <Form.Text className={"registration-title mb-4"}>
                                 Регистрация
                             </Form.Text>
+                            <Form.Group>
+                                <Form.Control type="text" placeholder="Фамилия" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Control type="text" placeholder="Имя" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Control type="text" placeholder="Отчество" />
+                            </Form.Group>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control type="email" placeholder="E-Mail" />
                             </Form.Group>

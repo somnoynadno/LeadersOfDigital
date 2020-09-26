@@ -10,11 +10,23 @@ import FormControl from "react-bootstrap/FormControl";
 import Header from "../../components/Header";
 
 import '../../styles/ViewApplication.css';
+import {clientAPI} from "../../http/ClientAPI";
 
 class ViewApplication extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {title: "Просмотр заявления"}
+        this.state = {
+            title: "Просмотр заявления",
+            selectedService: "Выберите тип",
+            documents: []
+        }
+    }
+
+    componentDidMount = async () => {
+        await clientAPI.GetApplicationByID(1)
+            .then((res) => this.setState({application:res, documents: res.ServiceType.DocumentTypes}))
+        for (let s of this.state.application.ServiceType.DocumentTypes)
+            console.log(s)
     }
 
     render () {
@@ -24,7 +36,7 @@ class ViewApplication extends React.Component {
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
                         <h3>Заявление №</h3>
-                        <span>Описание заявлеения</span>
+                        <span id={"app_description"}>Описание заявлеения</span>
                     </Col>
                     <div id={"changelog"}>
                         <Dropdown>
@@ -41,51 +53,26 @@ class ViewApplication extends React.Component {
                     </div>
                 </Row>
                 <Form>
-                    <h3>Требуемые документы</h3>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>НДФЛ</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Прикреплено</span>
-                        </Col>
-                        <Col>
-                            <Button>Посмотреть</Button>
-                        </Col>
-                    </Row>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>Трудовая книга</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Прикреплено</span>
-                        </Col>
-                        <Col>
-                            <Button>Посмотреть</Button>
-                        </Col>
-                    </Row>
-                    <Row className={"doc"}>
-                        <Col>
-                            <span className={"doc_name"}>Выписка из морга</span>
-                        </Col>
-                        <Col>
-                            <span className={"doc_status"}>Отсутствует</span>
-                        </Col>
-                        <Col>
-                            <Button>Прикрепить</Button>
-                        </Col>
-                    </Row>
+                    <h3>Требуемые документы:</h3>
+                    {this.state.documents.map((d) => {
+                        return <Row className={"doc"}>
+                            <Col>
+                                <span className={"doc_name"}>{d.Name}</span>
+                            </Col>
+                            <Col>
+                                <Button>Прикрепить</Button>
+                            </Col>
+                        </Row>
+                    })}
                 </Form>
+
                 <Row id={"comments"}>
                     <Col className={"col-12"}>
-                        <Form>
+                        <Form id={"comment-form"}>
                             <InputGroup>
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text>Комментарий</InputGroup.Text>
-                                </InputGroup.Prepend>
                                 <FormControl as="textarea" aria-label="With textarea" />
                             </InputGroup>
-                            <Button>Отправить</Button>
+                            <Button>Отправить комментарий</Button>
                         </Form>
                     </Col>
                     <Col id={"comments col-12"}>

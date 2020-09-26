@@ -26,11 +26,11 @@ class Applications extends React.Component {
                 <Header />
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
-                        <h3>Кеков Кек Кекович</h3>
+                        <h3><b>Кеков Кек Кекович</b></h3>
                         <h4>Мои заявки</h4>
                     </Col>
                     <div className={"app-add-button"}>
-                        <Button onClick={() => this.props.history.push('/new_application')}>Написать заявление</Button>
+                        <Button onClick={() => this.props.history.push('/new_application')}>Новое заявление</Button>
                     </div>
                 </Row>
                 <Col>

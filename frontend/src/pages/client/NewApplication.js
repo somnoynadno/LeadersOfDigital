@@ -53,15 +53,15 @@ class NewApplication extends React.Component {
                 <Header />
                 <Row className={"row-auto"} id={"client-info"}>
                     <Col className={"col-auto"}>
-                        <h3>Новое заяление</h3>
+                        <h3><b>Новое заяление</b></h3>
                     </Col>
                 </Row>
                 <Form>
                     <Row>
                         <Col>
-                            <span>Выберите нужное заявление</span>
+                            <span>Выберите тип заявления:</span>
                             <Dropdown onSelect={(ek, e) => this.handleServiceTypeChange(ek)}>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <Dropdown.Toggle variant="blue" id="dropdown-basic">
                                     {this.state.selectedService}
                                 </Dropdown.Toggle>
 
@@ -77,12 +77,14 @@ class NewApplication extends React.Component {
                         <Col>
                             {this.state.documents ?
                             <div>
-                                Необходимые документы:
+                                <span>Необходимые документы:</span>
+                                <ul>
                                 {this.state.documents.map((d) => {
-                                    return <div>
+                                    return <li>
                                         <span className={"doc_name"}>{d.Name}</span>
-                                    </div>
+                                    </li>
                                 })}
+                                </ul>
                             </div> : ''}
                         </Col>
                     </Row>
