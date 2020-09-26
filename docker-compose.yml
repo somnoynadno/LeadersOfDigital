@@ -10,6 +10,8 @@ services:
     ports:
       - "4000:4000"
     restart: "always"
+    volumes:
+      - /var/www/static/digital:/data
     network_mode: "host"
 
   digital_frontend:

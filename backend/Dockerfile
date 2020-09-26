@@ -12,6 +12,10 @@ COPY . .
 # TODO: Modify build command for your application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
+# create static
+RUN mkdir /data
+RUN chmod 777 /data
+
 # Running enviroment
 FROM alpine:latest
 # For debugging
