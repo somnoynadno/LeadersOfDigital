@@ -23,11 +23,14 @@ class ViewApplication extends React.Component {
         this.state = {
             title: "Просмотр заявления",
             application: null,
-            documents: []
+            documents: [],
+            commentText: ''
         };
 
         this.handleFileChange.bind(this);
         this.handleFileUpload.bind(this);
+        this.handleCommentChange.bind(this);
+        this.handleAddComment.bind(this);
     }
 
     preprocessDocuments = () => {
@@ -62,20 +65,25 @@ class ViewApplication extends React.Component {
     };
 
     handleFileUpload = async (dt) => {
-        // Create an object of formData
         const formData = new FormData();
-
-        // Update the formData object
         formData.append(
             "File",
             this.state.selectedFile,
         );
 
-        // Request made to the backend api
-        // Send formData object
         await clientAPI.UploadDocument(this.state.application.ID, formData, dt.ID)
             .then((r) => window.location.reload());
     };
+
+    handleAddComment = async () => {
+        console.log(1);
+        await clientAPI.AddComment(this.state.application.ID, this.state.commentText)
+            .then((r) => window.location.reload());
+    }
+
+    handleCommentChange = (event) => {
+        this.setState({commentText: event.target.value});
+    }
 
     render () {
         if (!this.state.application) return '';
@@ -156,20 +164,12 @@ class ViewApplication extends React.Component {
                     : ''
                 }
                 <Row id={"comments"}>
-                    <Col className={"col-12"}>
-                        <Form id={"comment-form"}>
-                            <InputGroup>
-                                <FormControl as="textarea" aria-label="With textarea" />
-                            </InputGroup>
-                            <Button>Отправить комментарий</Button>
-                        </Form>
-                    </Col>
-                    <Col id={"comments col-12"}>
+                    <Col className={"mb-2"} id={"comments col-12"}>
                         {this.state.application.Comments.map((c) => {
                             return <Row className={"comment"}>
-                                <Col className={"col-3"}>
+                                <Col className={"col-auto"}>
                                     <div className={"author"}>
-                                        {c.EmployeeID === null ?
+                                        {!c.EmployeeID ?
                                             <u>Вы:</u>
                                             :
                                             <u>Сотрудник банка:</u>
@@ -178,14 +178,27 @@ class ViewApplication extends React.Component {
                                 </Col>
                                 <Col className={"col-9"}>
                                     <div className={"text"}>
-                                        {c.Text} ({(new Date(c.CreatedAt)).toLocaleString('ru', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',})})
+                                        {c.Text}
+                                        <time className={"text-secondary"}>
+                                            ({(new Date(c.CreatedAt)).toLocaleString('ru', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',})})
+                                        </time>
                                     </div>
                                 </Col>
                             </Row>
                         })}
+                    </Col>
+                    <Col className={"col-12 mb-4"}>
+                        <Form id={"comment-form"}>
+                            <InputGroup>
+                                <FormControl value={this.state.commentText}
+                                             onChange={this.handleCommentChange}
+                                             as="textarea" aria-label="With textarea" />
+                            </InputGroup>
+                            <Button onClick={() => this.handleAddComment()}>Отправить комментарий</Button>
+                        </Form>
                     </Col>
                 </Row>
             </Container>
