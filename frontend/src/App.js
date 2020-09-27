@@ -19,8 +19,8 @@ class App extends React.Component {
             <Route history={history} path='/applications' component={Applications} />
             <Route history={history} path='/new_application' component={NewApplication} />
             {/* Employee */}
-            <Route history={history} path='/free_applications' component={null} />
-            <Route history={history} path='/my_applications' component={null} />
+            <Route history={history} path='/free_applications' component={Applications} />
+            <Route history={history} path='/my_applications' component={Applications} />
             {/* Authorization */}
             <Route history={history} path='/login' component={Login} />
             <Route history={history} path='/register' component={Register} />
