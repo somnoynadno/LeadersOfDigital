@@ -20,7 +20,7 @@
     border-radius: 3px;
 }
 
-.application div.add-button {
+.application .add-button {
     transition: 0.3s;
 }
 

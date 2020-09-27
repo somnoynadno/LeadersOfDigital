@@ -104,9 +104,11 @@ class ViewApplication extends React.Component {
                             <Dropdown.Menu>
                                 {this.state.application.ChangeLogs.map((cl) => {
                                     return <Dropdown.Item>{(new Date(cl.CreatedAt)).toLocaleString('ru', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',})}: {cl.Message}</Dropdown.Item>
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        day: 'numeric',
+                                        month: 'numeric',
+                                    })}: {cl.Message}</Dropdown.Item>
                                 })}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -182,8 +184,11 @@ class ViewApplication extends React.Component {
                                         <time className={"text-secondary"}>
                                             ({(new Date(c.CreatedAt)).toLocaleString('ru', {
                                             year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',})})
+                                            month: 'numeric',
+                                            day: 'numeric',
+                                            hour: 'numeric',
+                                            minute: 'numeric'
+                                            })})
                                         </time>
                                     </div>
                                 </Col>

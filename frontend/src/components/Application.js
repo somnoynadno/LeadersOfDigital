@@ -17,28 +17,29 @@ class Application extends React.Component {
     }
 
     render () {
-        return <Row className={"application"}>
-                <div className={"number"}>
-                    <span>№{this.entity.ID}</span>
-                </div>
-                <div className={"name"}>
-                    <span>{this.entity.ServiceType.Name}</span>
-                </div>
-                <div className={"date"}>
-                    <time>{(new Date(this.entity.CreatedAt)).toLocaleString('ru', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',})}</time>
-                </div>
-                <div className={"status"}>
-                    <span>{this.entity.ApplicationStatus.Name}</span>
-                </div>
-                <div className={"add-button"} onClick={() => this.props.history.push(`/application/${this.entity.ID}`)}>
-                    <span>Редактировать</span>
-                </div>
-                <div className={"delete-button"} onClick={() => this.handleDeleteApplication()}>
-                    <span>Удалить заявку</span>
-                </div>
+        return <Row className={"application"} style={{opacity: (this.entity.ApplicationStatusID >= 4 ? 0.5: 1)}}>
+            <div className={"number"}>
+                <span>№{this.entity.ID}</span>
+            </div>
+            <div className={"name"}>
+                <span>{this.entity.ServiceType.Name}</span>
+            </div>
+            <div className={"status"}>
+                <span>{this.entity.ApplicationStatus.Name}</span>
+            </div>
+            <div className={"date"}>
+                <time>{(new Date(this.entity.CreatedAt)).toLocaleString('ru', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',})}</time>
+            </div>
+            <div className={"add-button"} style={{visibility: (this.entity.ApplicationStatusID >= 4 ? "hidden": "visible")}}
+                 onClick={() => this.props.history.push(`/application/${this.entity.ID}`)}>
+                <span>Редактировать</span>
+            </div>
+            <div className={"delete-button"} onClick={() => this.handleDeleteApplication()}>
+                <span>Удалить</span>
+            </div>
         </Row>
     }
 }
