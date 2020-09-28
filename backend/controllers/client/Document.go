@@ -5,14 +5,12 @@ import (
 	"LeadersOfDigital/backend/loghub"
 	"LeadersOfDigital/backend/models/entities"
 	u "LeadersOfDigital/backend/utils"
-	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/nacl/sign"
 	"io"
 	"net/http"
 	"os"
@@ -57,7 +55,7 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// maximum upload of 10 MB files
-	err = r.ParseMultipartForm(10 << 20)
+	err = r.ParseMultipartForm(20 << 20)
 	if err != nil {
 		u.HandleInternalError(w, err)
 		return
@@ -94,24 +92,6 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// sign file
-	h := sha256.New()
-	var s []byte
-
-	if _, err := io.Copy(h, file); err != nil {
-		u.HandleInternalError(w, err)
-		return
-	}
-
-	signHash := h.Sum(nil)
-	privateKey := application.Client.PrivateKey
-
-	// cast to fixed-size array
-	var arr [64]byte
-	copy(arr[:], privateKey[:64])
-	out := sign.Sign(s, signHash, &arr)
-
-	// copy the uploaded file to the created file on the filesystem
 	if _, err := io.Copy(dst, file); err != nil {
 		u.HandleInternalError(w, err)
 		return
@@ -122,7 +102,6 @@ var UploadDocument = func(w http.ResponseWriter, r *http.Request) {
 	Document.ApplicationID = uint(applicationID)
 	Document.DocumentTypeID = uint(dtID)
 	Document.Link = name
-	Document.Signature = out
 
 	err = db.Create(Document).Error
 

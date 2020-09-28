@@ -5,7 +5,7 @@ type User struct {
 	Surname    string
 	Patronymic *string
 	Email      string
-	Password   string
-	PrivateKey	[]byte
+	Password   string      `json:"-"`
+	PrivateKey	[]byte `json:"-"`
 	PublicKey	[]byte
 }
